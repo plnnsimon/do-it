@@ -1,0 +1,127 @@
+.progress__bar {
+    span {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+        h3 {
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 100%;
+        }
+    }
+    progress {
+        border-radius: 7px;
+        width: 100%;
+        height: 4px;
+        margin-bottom: 8px;
+        &::-webkit-progress-bar {
+            background-color: #2b353f;
+            height: 3px;
+            border-radius: 7px;
+        }
+    }
+}
+
+.progress__bar-0 {
+    color: #55AAFF;
+    progress {
+
+        &::-webkit-progress-value {
+            background-color: #55AAFF;
+        }
+    }
+    
+}
+
+.progress__bar-1 {
+    color: #55FF8F;
+    progress {
+
+        &::-webkit-progress-value {
+            background-color: #55FF8F;
+        }
+    }
+    
+}
+
+.progress__bar-2 {
+    color: #B455FF;
+    progress {
+
+        &::-webkit-progress-value {
+            background-color: #B455FF;
+        }
+    }
+    
+}
+
+.progress__bar-3 {
+    color: #FF9255;
+    progress {
+
+        &::-webkit-progress-value {
+            background-color: #FF9255;
+        }
+    }
+    
+}
+
+.progress__bar-4 {
+    color: #FF5555;
+    progress {
+        
+        &::-webkit-progress-value {
+            background-color: #FF5555;
+        }
+    }
+    
+}
+
+.progress__bar-5 {
+    color: rgb(166, 255, 0);
+    progress {
+
+        &::-webkit-progress-value {
+            background-color: rgb(166, 255, 0);
+        }
+    }
+    
+}
+
+.progress__bar-6 {
+    color: #6655ff;
+    progress {
+        
+        &::-webkit-progress-value {
+            background-color: #6655ff;
+        }
+    }
+    
+}
+
+.progress__bar-7 {
+    color: rgb(255, 187, 0);
+    progress {
+
+        &::-webkit-progress-value {
+            background-color: rgb(255, 187, 0);
+        }
+    }
+    
+}
+
+.awards__rings-0 {
+    border-color: #55AAFF !important;
+}
+
+.awards__rings-1 {
+    border-color: #B455FF !important;
+}
+
+.awards__rings-2 {
+    border-color: #FF5555 !important;
+}
+
+.awards__rings-2 {
+    border-color: #6655ff !important;
+}
