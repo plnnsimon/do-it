@@ -26,11 +26,12 @@
 <style lang="scss">
 .sidebar {
     position: fixed;
-        top: 0;
-        left: 0;
-        width: 112px;
-        border-right: 2px solid #20252B;
-        height: 100%;
+    top: 0;
+    left: 0;
+    width: 112px;
+    border-right: 2px solid #20252B;
+    height: 100%;
+    z-index: 11;
         
     .sidebar__wrapper {
         max-height: 960px;
@@ -58,7 +59,6 @@
         height: 55px;
         background: #0F1215;
         border-top: 1px solid #20252B;
-        z-index: 1;
             
         .sidebar__wrapper {
             height: 100%;

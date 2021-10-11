@@ -10,7 +10,7 @@
             @blur="inputFunction"
         />
         <i v-if="success && input !== ''" style="color: #47b833;" class="fas fa-check"></i>
-        <i @click="snackbar = false" v-if="snackbar && !success" style="color: #B83333;" class="fas fa-times"></i>
+        <i @click="snackbar = false; input = ''" v-if="snackbar && !success" style="color: #B83333;" class="fas fa-times"></i>
         <p v-if="snackbar">{{ message }}</p>
     </div>
 </template>

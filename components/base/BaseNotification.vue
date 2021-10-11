@@ -1,9 +1,6 @@
 <template>
-  <div
-    v-if="isCanShown"
-    :style="{color: color}"
-    >
-      {{ message }}
+    <div class="notification" v-if="canShow" :style="{ color: color }">
+        {{ message }}
     </div>
 </template>
 
@@ -12,41 +9,41 @@ export default {
     props: {
         message: {
             default: '',
-            type: String
+            type: String,
         },
         canShow: {
             default: false,
-            type: Boolean
+            type: Boolean,
         },
         color: {
             default: 'black',
-            type: String
-        }
+            type: String,
+        },
     },
     data() {
-        return {
-            isCanShown: false,
-        }
+        return {}
     },
-    // mounted() {
-    //     if (this.canShow === true) {
-    //         this.isCanShown = this.canShow;
-    //         setTimeout(function () { this.isCanShown = false}, 4000)
-    //     }
-    // },
     watch: {
-        canShown(val) {
-            console.log(val);
-            if (val === true) {
-                this.isCanShown = val
-                setTimeout(function () { this.isCanShown = false}, 4000)
+        canShow(newVal) {
+            if (newVal === true) {
+                setTimeout(() => {
+                    this.$emit('closeNotification', false)
+                }, 4000)
             }
-            this.isCanShown = false
-        }
+        },
     },
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.notification {
+    position: fixed;
+    bottom: 5%;
+    margin-left: 5%;
+    right: 5%;
+    border: 1px solid #b33232;
+    border-radius: 5px;
+    padding: 20px;
+    background: #0b1729;
+}
 </style>

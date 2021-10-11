@@ -1,27 +1,81 @@
 <template>
-    <div class="header">
+    <div class="header" :class="{ header__bg: isOpenMenu }">
         <div class="burger__menu">
-            <i v-if="!isOpenMenu" @click="isOpenMenu = true" class="fas fa-bars"></i>
+            <i
+                v-if="!isOpenMenu"
+                @click="isOpenMenu = true"
+                class="fas fa-bars"
+            ></i>
             <i v-else @click="isOpenMenu = false" class="fas fa-minus"></i>
         </div>
         <div class="header__logo">
-            <img src="../static/DOIT.png" @click="$router.push('/')" alt="logo">
+            <img
+                src="../static/DOIT.png"
+                @click="
+                    $router.push('/')
+                    isOpenMenu = false
+                "
+                alt="logo"
+            />
         </div>
         <transition name="openMenu">
-            <div v-if="!isOpenMenu && windowWidth >= 1024 || isOpenMenu && windowWidth <= 1024" :class="{'open-menu': isOpenMenu}" class="navbar">
-                <div class="links__container">
-                    <NuxtLink class="header__link" to="/play">Play</NuxtLink>
-                    <NuxtLink class="header__link" to="/news">News</NuxtLink>
-                    <NuxtLink class="header__link" to="/games">Games</NuxtLink>
-                    <NuxtLink class="header__link" to="/shop">Shop</NuxtLink>
-                    <NuxtLink class="header__link" to="/sponsorship">Sponsorship</NuxtLink>
+            <div
+                v-if="
+                    (!isOpenMenu && windowWidth >= 1024) ||
+                    (isOpenMenu && windowWidth <= 1024)
+                "
+                :class="{ 'open-menu': isOpenMenu }"
+                class="navbar"
+            >
+                <div class="links__container" @click="isOpenMenu = false">
+                    <NuxtLink
+                        class="header__link"
+                        @click="isOpenMenu = false"
+                        to="/play"
+                        >Play</NuxtLink
+                    >
+                    <NuxtLink
+                        class="header__link"
+                        @click="isOpenMenu = false"
+                        to="/news"
+                        >News</NuxtLink
+                    >
+                    <NuxtLink
+                        class="header__link"
+                        @click="isOpenMenu = false"
+                        to="/games"
+                        >Games</NuxtLink
+                    >
+                    <NuxtLink
+                        class="header__link"
+                        @click="isOpenMenu = false"
+                        to="/shop"
+                        >Shop</NuxtLink
+                    >
+                    <NuxtLink
+                        class="header__link"
+                        @click="isOpenMenu = false"
+                        to="/sponsorship"
+                        >Sponsorship</NuxtLink
+                    >
                 </div>
-                <div v-if="user === null" class="buttons__container" :class="{'open__menu_buttons': isOpenMenu}">
-                    <button class="login" @click="$router.push('/login')">log in</button>
+                <div
+                    v-if="user === null"
+                    class="buttons__container"
+                    :class="{ open__menu_buttons: isOpenMenu }"
+                >
+                    <button class="login" @click="$router.push('/login')">
+                        log in
+                    </button>
                     <button class="sign__out" @click="signUp">Sign up</button>
                 </div>
-                <ProfileNavDropdown :class="{'open__menu_dropdown': isOpenMenu}" v-if="user" :user="user" />
-        </div>
+                    <ProfileNavDropdown
+                        @closeBurger="closeBurger"
+                        :class="{ open__menu_dropdown: isOpenMenu }"
+                        v-if="user"
+                        :user="user"
+                    />
+            </div>
         </transition>
     </div>
 </template>
@@ -31,48 +85,49 @@ export default {
     data() {
         return {
             isOpenMenu: false,
-            windowWidth: window.innerWidth
+            windowWidth: window.innerWidth,
         }
     },
     computed: {
         user() {
             return this.$store.getters.getUser
-        }
+        },
     },
     mounted() {
         this.$nextTick(() => {
-            window.addEventListener('resize', this.onResize);
+            window.addEventListener('resize', this.onResize)
         })
     },
-    beforeDestroy() { 
-        window.removeEventListener('resize', this.onResize); 
+    beforeDestroy() {
+        window.removeEventListener('resize', this.onResize)
     },
     methods: {
+        closeBurger(data) {
+            this.isOpenMenu = data;
+        },
         signUp() {
-            this.$router.push({ name: 'login', props: { signUp: true } })
+            this.$router.push({ name: 'login', params: { signUp: true } })
         },
         onResize() {
             this.windowWidth = window.innerWidth
-        }
+        },
     },
-    
 }
 </script>
 
 <style lang="scss">
 .openMenu-enter-active {
-  transition: all .3s ease;
+    transition: all 0.3s ease;
 }
 .openMenu-leave-active {
-  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
-.openMenu-enter, .openMenu-leave-to {
-  transform: translateX(50px);
-  opacity: 0;
+.openMenu-enter,
+.openMenu-leave-to {
+    transform: translateX(50px);
+    opacity: 0;
 }
-
-
 
 .header {
     display: flex;
@@ -81,12 +136,22 @@ export default {
     align-items: center;
     width: 100%;
     justify-content: space-between;
+    position: relative;
+    top: 0;
+    left: 0;
+    // padding: 0 15%;
+    z-index: 11;
+
+    &.header__bg {
+        background: #0f1215;
+    }
 
     .burger__menu {
         display: none;
     }
 
     .header__logo {
+        z-index: 3;
         img {
             width: 88px;
             height: 80px;
@@ -102,14 +167,15 @@ export default {
 
         &.open-menu {
             display: flex;
-            position: absolute;
-            top: 100px;
-            background: #0F1215;
+            position: fixed;
+            top: 0;
+            background: #0f1215;
             flex-direction: column;
-            z-index: 1;
-            padding: 0;
-            height: 115%;
+            z-index: 2;
+            padding: 100px 0 0 0;
+            height: 100%;
             left: 0;
+            overflow: scroll;
         }
 
         .links__container {
@@ -124,10 +190,10 @@ export default {
                 font-weight: bold;
                 font-size: 20px;
                 line-height: 24px;
-                color: #E6E6E6;
+                color: #e6e6e6;
                 text-decoration: none;
                 &:hover {
-                    transition: all ease .5s;
+                    transition: all ease 0.5s;
                     color: #a1a1a1a1;
                 }
             }
@@ -147,24 +213,25 @@ export default {
             .login {
                 width: 105px;
                 height: 50px;
-                background: #1A222D;
-                color: #0A61E1;
+                background: #1a222d;
+                color: #0a61e1;
                 margin-right: 8px;
             }
             .sign__out {
                 width: 136px;
                 height: 50px;
-                background: linear-gradient(180deg, #2788F6 0%, #0960E0 100%), #095FE0;
+                background: linear-gradient(180deg, #2788f6 0%, #0960e0 100%),
+                    #095fe0;
             }
-        
         }
     }
-    
 }
-
 
 @media screen and (max-width: 1024px) {
     .header {
+        padding: 0 20px;
+        position: fixed;
+        background: #0f121594;
         .navbar {
             display: none;
             justify-content: start;
@@ -173,7 +240,7 @@ export default {
                 flex-direction: column;
                 width: 50%;
                 height: 50%;
-                padding-bottom: 80px;
+                padding-bottom: 50px;
             }
         }
 
@@ -187,13 +254,14 @@ export default {
 
         .burger__menu {
             display: block;
+            z-index: 3;
 
             i {
                 font-size: 28px;
                 cursor: pointer;
 
                 &:hover {
-                    opacity: .5;
+                    opacity: 0.5;
                 }
             }
         }
@@ -223,13 +291,6 @@ export default {
 @media screen and (max-width: 425px) {
     .header {
         .navbar {
-
-            .links__container {
-                flex-direction: column;
-                width: 100%;
-                height: 50%;
-                padding-bottom: 80px;
-            }
         }
 
         .buttons__container {
@@ -237,7 +298,6 @@ export default {
             padding: 0 25px;
 
             &.open__menu_buttons {
-
                 .login {
                     width: 100%;
                 }
@@ -249,5 +309,4 @@ export default {
         }
     }
 }
-
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="dropdown">
+    <div class="dropdown" :class="{ active__dropdown: show }">
         <div class="dropdown__user_section">
             <div class="profile__image">
                 <i
@@ -14,46 +14,12 @@
             </div>
             <div class="dropdown__menu">
                 <span class="dropdown__btn">
-                    <i 
-                        :class="{ active: show }" 
-                        class="fas fa-chevron-down" 
-                        @click="show = !show"></i>
+                    <i
+                        :class="{ active: show }"
+                        class="fas fa-chevron-down"
+                        @click="show = !show"
+                    ></i>
                 </span>
-                <transition name="fade">
-                    <div v-if="show" class="dropdown__list">
-                        <ul>
-                            <li>
-                                <NuxtLink to="/profile">MY PROFILE</NuxtLink>
-                            </li>
-                            <li>
-                                <NuxtLink to="/#">MY TEAM</NuxtLink>
-                            </li>
-                            <li>
-                                <NuxtLink to="/#">WITHDRAW</NuxtLink>
-                            </li>
-                            <li>
-                                <NuxtLink to="/#">DEPOSIT</NuxtLink>
-                            </li>
-                            <li>
-                                <NuxtLink to="/#">PREMIUM</NuxtLink>
-                            </li>
-                            <li>
-                                <NuxtLink to="/#">STATISTICS</NuxtLink>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <NuxtLink to="/#">Support</NuxtLink>
-                            </li>
-                            <li>
-                                <NuxtLink to="/#">Settings</NuxtLink>
-                            </li>
-                            <li>
-                                <button @click="signOut">Sign out</button>
-                            </li>
-                        </ul>
-                    </div>
-                </transition>
             </div>
         </div>
         <div class="dropdown__level_section">
@@ -64,6 +30,45 @@
                 <i class="fas fa-bell"></i>
             </div>
         </div>
+        <transition name="fade">
+            <div
+                v-if="show"
+                class="dropdown__list"
+                @click="$emit('closeBurger', false)"
+            >
+                <ul @click="show = !show">
+                    <li>
+                        <NuxtLink to="/profile">MY PROFILE</NuxtLink>
+                    </li>
+                    <li>
+                        <NuxtLink to="/#">MY TEAM</NuxtLink>
+                    </li>
+                    <li>
+                        <NuxtLink to="/#">WITHDRAW</NuxtLink>
+                    </li>
+                    <li>
+                        <NuxtLink to="/#">DEPOSIT</NuxtLink>
+                    </li>
+                    <li>
+                        <NuxtLink to="/#">PREMIUM</NuxtLink>
+                    </li>
+                    <li>
+                        <NuxtLink to="/#">STATISTICS</NuxtLink>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <NuxtLink to="/#">Support</NuxtLink>
+                    </li>
+                    <li>
+                        <NuxtLink to="/#">Settings</NuxtLink>
+                    </li>
+                    <li>
+                        <button @click="signOut">Sign out</button>
+                    </li>
+                </ul>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -83,36 +88,42 @@ export default {
     },
     computed: {
         level() {
-            return this.user.awards.reduce(function(a,b) { return a + b.level; }, 0);
-        }
+            return this.user.awards.reduce(function (a, b) {
+                return a + b.level
+            }, 0)
+        },
     },
     methods: {
         async signOut() {
+            // this.$nuxt.$loading.start()
             await this.$fire.auth.signOut()
             this.$router.push('/')
         },
     },
-    mounted() {
-    }
+    mounted() {},
 }
 </script>
 
 <style lang="scss" scoped>
-
 .active {
-    transition: all ease .3s;
+    transition: all ease 0.3s;
     transform: rotate(180deg) !important;
 }
 .dropdown {
-    background: #161A1F;
+    background: #161a1f;
     flex-direction: column;
     width: 226px;
-    height: 75px;
+    height: 72px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     border-bottom: 2px solid black;
+
+    &.active__dropdown {
+        height: 100%;
+        max-height: 300px;
+    }
 
     .dropdown__user_section {
         display: flex;
@@ -141,7 +152,7 @@ export default {
                 }
                 &:nth-child(2) {
                     font-size: 12px;
-                    color: #55AAFF;
+                    color: #55aaff;
                 }
             }
         }
@@ -150,62 +161,9 @@ export default {
             .dropdown__btn {
                 i {
                     transform: rotate(0deg);
-                    transition: all ease .3s;
-                    
+                    transition: all ease 0.3s;
                 }
             }
-
-            .dropdown__list {
-                z-index: 10;
-                background: #161A1F;
-                position: absolute;
-                top: 75px;
-                width: 100%;
-                left: 0;
-                font-size: 12px;
-                ul {
-                    display: flex;
-                    list-style: none;
-                    a {
-                        color: #F5F5F5;
-                        text-decoration: none;
-                    }
-                    &:nth-child(1) {
-                        flex-direction: column;
-                        border-bottom: 2px solid black;
-
-                        li {
-                            cursor: pointer;
-                            padding: 14px 0 14px 12px;
-                            
-                            &:hover {
-                                background: rgba(88, 88, 88, 0.746);
-                            }
-                        }
-                    }
-
-                    &:nth-child(2) {
-                        font-weight: normal;
-                        color: #969BA3;
-                        justify-content: space-around;
-                        a {
-                            color: #969BA3;
-                        }
-
-                        li {
-                            padding: 14px 0;
-                            width: 100%;
-                            text-align: center;
-                            &:hover {
-                                cursor: pointer;
-                                background: rgba(88, 88, 88, 0.746);
-                            }
-                        }
-                    }
-                }
-            }
-
-            
         }
     }
 
@@ -219,7 +177,7 @@ export default {
             font-weight: normal;
             font-size: 11px;
             line-height: 100%;
-            color: #F5F5F5;
+            color: #f5f5f5;
         }
 
         progress {
@@ -227,7 +185,7 @@ export default {
             height: 2px;
             appearance: none;
             &::-webkit-progress-bar {
-                background: #2B353F;
+                background: #2b353f;
                 border-radius: 2px;
             }
             &::-webkit-progress-value {
@@ -237,9 +195,60 @@ export default {
 
         .icons {
             i {
-                color: #2B353F;
+                color: #2b353f;
                 &:hover {
                     color: white;
+                }
+            }
+        }
+    }
+
+    .dropdown__list {
+        z-index: 10;
+        background: #161a1f;
+        position: absolute;
+        top: 75px;
+        width: 100%;
+        // height: 100%;
+        left: 0;
+        font-size: 12px;
+        ul {
+            display: flex;
+            list-style: none;
+            a {
+                color: #f5f5f5;
+                text-decoration: none;
+            }
+            &:nth-child(1) {
+                flex-direction: column;
+                border-bottom: 2px solid black;
+
+                li {
+                    cursor: pointer;
+                    padding: 14px 0 14px 12px;
+
+                    &:hover {
+                        background: rgba(88, 88, 88, 0.746);
+                    }
+                }
+            }
+
+            &:nth-child(2) {
+                font-weight: normal;
+                color: #969ba3;
+                justify-content: space-around;
+                a {
+                    color: #969ba3;
+                }
+
+                li {
+                    padding: 14px 0;
+                    width: 100%;
+                    text-align: center;
+                    &:hover {
+                        cursor: pointer;
+                        background: rgba(88, 88, 88, 0.746);
+                    }
                 }
             }
         }
@@ -247,14 +256,32 @@ export default {
 }
 
 .fade-enter-active {
-  transition: all .3s ease;
+    transition: all 0.3s ease;
 }
 .fade-leave-active {
-  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
-.fade-enter, .fade-leave-to {
-  transform: translateX(50px);
-  opacity: 0;
+.fade-enter,
+.fade-leave-to {
+    transform: translateX(50px);
+    opacity: 0;
+}
+
+@media screen and (max-width: 1024px) {
+    .dropdown {
+        margin-bottom: 200px;
+
+        .dropdown__user_section {
+            background: #161a1f;
+        }
+        .dropdown__level_section {
+            background: #161a1f;
+            margin-bottom: 1.5px;
+        }
+        // .dropdown__list {
+        //     position: relative;
+        // }
+    }
 }
 </style>

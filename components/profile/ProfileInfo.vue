@@ -119,7 +119,7 @@ h2 {
 
 .awards {
     display: flex;
-    max-width: 420px;
+    max-width: 520px;
     justify-content: space-between;
     width: 100%;
 
@@ -145,12 +145,17 @@ h2 {
 @media screen and (max-width: 1440px) {
     .awards {
         .awards__rings {
-            display: none;
+            // display: none;
         }
     }
 }
 
 @media screen and (max-width: 1024px) {
+    .awards {
+        .awards__rings {
+            display: none;
+        }
+    }
     .profile__page {
         flex-flow: row wrap;
     }
@@ -159,7 +164,7 @@ h2 {
 @media screen and (max-width: 768px) {
     .awards {
         .awards__rings {
-            display: none;
+            // display: none;
         }
     }
 }

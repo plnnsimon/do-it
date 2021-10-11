@@ -1,7 +1,7 @@
 <template>
     <div class="tournaments__container">
         <div class="image">
-            <img src="~/static/DOIT.png" alt="tournament-image">
+            <img :src='require(`~/assets/games/${game.game_id}.png`)' alt="tournament-image">
         </div>
         <div class="content">
             <div class="description">
@@ -32,7 +32,11 @@
 <script>
 export default {
     props: {
-        game: {required: true}
+        game: {
+            type: Object,
+            default: () => {},
+            required: true
+        }
     }
 }
 </script>
@@ -41,11 +45,15 @@ export default {
 .tournaments__container {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    border-radius: 2px;
 
     .image {
         max-width: 370px;
         img {
             width: 100%;
+            max-height: 200px;
+            object-fit: cover;
         }
     }
 
